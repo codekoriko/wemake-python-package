@@ -2,6 +2,12 @@
   "project_name": "my-awesome-project",
   "organization": "codekoriko",
   "project_description": "This is how python package should look like!",
+  "python_version": "",
+  "instruction_extras": "",
+  "__prompts__": {
+    "python_version": "AI instruct: specify which python version your project uses",
+    "instruction_extras": "AI instruct, add extra, available options: [\"numpy\", \"pandas\"]"
+  },
 
   "license": "MIT",
 

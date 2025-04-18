@@ -19,19 +19,17 @@
             "console": "internalConsole"
         },
         {
-            // used by pytest debug test icon
-            "name": "Debug Unit Test",
+            "name": "Debugging Current pytest file",
             "type": "debugpy",
             "request": "launch",
-            "justMyCode": false,
-            "program": "${file}",
-            "purpose": [
-                "debug-test"
-            ],
+            "module": "pytest",
             "console": "internalConsole",
+            "args": [
+                "${file}"
+            ],
             "env": {
                 "PYTEST_ADDOPTS": "--no-cov"
             },
-        }
+        },
     ]
 }
