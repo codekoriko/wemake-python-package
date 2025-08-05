@@ -1,7 +1,7 @@
 # wemake-python-package
 
 [![wemake.services](https://img.shields.io/badge/-wemake.services-green.svg?label=%20&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC%2FxhBQAAAAFzUkdCAK7OHOkAAAAbUExURQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP%2F%2F%2F5TvxDIAAAAIdFJOUwAjRA8xXANAL%2Bv0SAAAADNJREFUGNNjYCAIOJjRBdBFWMkVQeGzcHAwksJnAPPZGOGAASzPzAEHEGVsLExQwE7YswCb7AFZSF3bbAAAAABJRU5ErkJggg%3D%3D)](https://wemake-services.github.io)
-[![Build status](https://github.com/wemake-services/wemake-python-package/workflows/test/badge.svg?branch=master&event=push)](https://github.com/wemake-services/wemake-python-package/actions?query=workflow%3Atest)
+[![test](https://github.com/wemake-services/wemake-python-package/actions/workflows/test.yml/badge.svg?event=push)](https://github.com/wemake-services/wemake-python-package/actions/workflows/test.yml)
 [![Dependencies Status](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen.svg)](https://github.com/wemake-services/wemake-python-package/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
@@ -17,11 +17,12 @@ Just like `poetry new` but better.
 ## Features
 
 - Always [`up-to-date`](https://github.com/wemake-services/wemake-python-package/pulls?utf8=%E2%9C%93&q=is%3Apr%20author%3Aapp%2Fdependabot) dependencies with the help of [`@dependabot`](https://dependabot.com/)
-- Supports latest `python3.8+`
+- Supports latest `python3.10+`
 - [`poetry`](https://github.com/python-poetry/poetry) for managing dependencies
 - [`mypy`](https://mypy.readthedocs.io) for optional static typing
 - [`pytest`](https://github.com/pytest-dev/pytest) for testing
-- [`flake8`](https://github.com/PyCQA/flake8) and [`wemake-python-styleguide`](https://github.com/wemake-services/wemake-python-styleguide) for linting
+- [`ruff`](https://github.com/astral-sh/ruff) and [`wemake-python-styleguide`](https://github.com/wemake-services/wemake-python-styleguide) for linting
+- [`pre-commit` CI](https://pre-commit.ci) with autofixes for your PRs
 - [`Github Actions`](https://docs.github.com/en/actions) as the default CI
 - [`sphinx`](http://www.sphinx-doc.org/en/master/) and [`readthedocs.org`](https://readthedocs.org/) for documentation
 - Easy update process, so your template will always be up-to-date
@@ -31,7 +32,13 @@ Just like `poetry new` but better.
 Firstly, you will need to install dependencies:
 
 ```bash
-pip install cookiecutter jinja2-git lice
+pip install cookiecutter jinja2-git lice setuptools
+```
+
+Or with [`uvx`](https://docs.astral.sh/uv/guides/tools):
+
+```bash
+uvx --with jinja2-git --with lice --with setuptools cookiecutter gh:wemake-services/wemake-python-package
 ```
 
 Then, create a project itself:
