@@ -6,17 +6,19 @@ build-backend = "poetry.core.masonry.api"
 [project]
 name = "{{ cookiecutter.project_name }}"
 description = "{{ cookiecutter.project_description }}"
-repository = "https://github.com/{{ cookiecutter.organization }}/{{ cookiecutter.project_name }}"
 version = "0.1.0"
 requires-python = ">=3.10,<3.14"
 readme = "README.md"
 license = { text = "{{ cookiecutter.license|upper }}" }
 dynamic = ["dependencies", "classifiers"]
 
-authors = []
+authors = [{name = "Killian Blais", email = "codekoriko@users.noreply.github.com"}]
 keywords = [
   "wemake-python-package",
 ]
+
+[project.urls]
+repository = "https://github.com/{{ cookiecutter.organization }}/{{ cookiecutter.project_name }}"
 
 
 [tool.poetry]
