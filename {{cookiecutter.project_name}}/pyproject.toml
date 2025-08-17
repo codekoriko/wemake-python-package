@@ -56,7 +56,7 @@ furo = "^2024.8"
 # Ruff config: https://docs.astral.sh/ruff/settings
 preview = true
 fix = true
-target-version = "py310"
+target-version = "py{{ cookiecutter.python_version.replace('.', '') }}"
 line-length = 80
 
 [tool.ruff.format]
@@ -166,6 +166,7 @@ strict = true
 strict_bytes = true
 local_partial_types = true
 warn_unreachable = true
+python_version = "{{ cookiecutter.python_version }}"
 
 enable_error_code = [
   "truthy-bool",
