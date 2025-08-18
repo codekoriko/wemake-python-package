@@ -29,6 +29,11 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+# we use mypy for type checks
+[tool.pyright]
+reportGeneralTypeIssues = false
+reportIncompatibleVariableOverride = false
+
 [tool.poetry.dependencies]
 
 [tool.poetry.group.dev.dependencies]
