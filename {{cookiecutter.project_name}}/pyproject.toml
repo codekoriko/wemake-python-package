@@ -29,6 +29,14 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+[tool.poetry.requires-plugins]
+poethepoet = ">=0.35"
+
+[tool.poe.tasks]
+lint = "flake8 ."
+type-check-mypy = "mypy ."
+type-check-pyright = "pyright ."  # vscode used for Pylance langage server
+
 [tool.poetry.dependencies]
 
 [tool.poetry.group.dev.dependencies]
@@ -40,6 +48,8 @@ ruff = "^0.11"
 pytest = "^8.4"
 pytest-cov = "^6.1"
 pytest-randomly = "^3.16"
+
+pyright = "^1.1.404"
 
 [tool.poetry.group.docs]
 optional = true

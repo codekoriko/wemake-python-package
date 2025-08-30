@@ -3,6 +3,7 @@
   "organization": "codekoriko",
   "project_description": "This is how python package should look like!",
   "python_version": "3.13",
+  "add_docs_support": ["n", "y"],
 
   "license": "MIT",
 

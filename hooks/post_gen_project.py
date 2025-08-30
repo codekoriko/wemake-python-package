@@ -6,6 +6,7 @@ https://github.com/pydanny/cookiecutter-django
 
 """
 
+import shutil
 import subprocess  # noqa: S404
 import textwrap
 from pathlib import Path
@@ -18,6 +19,7 @@ PROJECT_NAME: Final = '{{ cookiecutter.project_name }}'
 # We need these values to generate correct license:
 LICENSE: Final = '{{ cookiecutter.license }}'
 ORGANIZATION: Final = '{{ cookiecutter.organization }}'
+ADD_DOCS_SUPPORT: Final = '{{ cookiecutter.add_docs_support }}'
 
 
 def generate_license() -> None:
@@ -46,6 +48,14 @@ def generate_license() -> None:
         license_file.write('\n')
 
 
+def handle_docs_support() -> None:
+    """Remove docs directory if documentation support is not needed."""
+    if ADD_DOCS_SUPPORT == 'n':
+        docs_dir = PROJECT_DIRECTORY / 'docs'
+        if docs_dir.exists():
+            shutil.rmtree(docs_dir)
+
+
 def print_futher_instuctions() -> None:
     """Shows user what to do next after project creation."""
     message = """
@@ -58,4 +68,5 @@ def print_futher_instuctions() -> None:
 
 
 generate_license()
+handle_docs_support()
 print_futher_instuctions()

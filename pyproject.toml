@@ -41,6 +41,7 @@ mypy = "^1.17"
 pytest = "^8.4"
 pytest-randomly = "^3.16"
 pytest-cookies = "^0.7"
+pyright = "^1.1.404"
 
 
 [tool.ruff]
