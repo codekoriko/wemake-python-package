@@ -29,11 +29,6 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-# we use mypy for type checks
-[tool.pyright]
-reportGeneralTypeIssues = false
-reportIncompatibleVariableOverride = false
-
 [tool.poetry.dependencies]
 
 [tool.poetry.group.dev.dependencies]
@@ -178,6 +173,16 @@ exclude = [
   "sandbox/",
 ]
 
+# ie: Call to untyped function "thirdparty_fn" of "Module" in typed context
+#     Mypy(no-untyped-call)
+#
+# Add root module import here
+#
+# untyped_calls_exclude = [
+#   'google'
+# ]
+
+
 enable_error_code = [
   "truthy-bool",
   "truthy-iterable",
@@ -191,3 +196,24 @@ enable_error_code = [
   "unimported-reveal",
   "deprecated",
 ]
+
+#  ie: Skipping analyzing "third.party.module": module is installed, but
+#      missing library stubs or py.typed marker
+#
+# [[tool.mypy.overrides]]
+# module = [
+#   "google.*",
+#   "googleapiclient.*"
+# ]
+# ignore_missing_imports = true
+
+
+# Discourage to uncomment and silent project wide, instead
+# 1. `# pyright: ignore` on the problematic line
+# 2. `# pyright: reportUnknownVariableType=false` on top of file
+# cf: https://github.com/microsoft/pyright/issues/4831
+# cf: https://github.com/microsoft/pyright/discussions/4938
+#
+# [tool.pyright]
+# reportGeneralTypeIssues = false
+# reportIncompatibleVariableOverride = false
