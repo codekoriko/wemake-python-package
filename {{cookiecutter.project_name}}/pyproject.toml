@@ -224,6 +224,7 @@ enable_error_code = [
 # cf: https://github.com/microsoft/pyright/issues/4831
 # cf: https://github.com/microsoft/pyright/discussions/4938
 #
-# [tool.pyright]
+[tool.pyright]
+exclude = ["sandbox/**"]
 # reportGeneralTypeIssues = false
 # reportIncompatibleVariableOverride = false
