@@ -7,10 +7,10 @@ build-backend = "poetry.core.masonry.api"
 name = "wemake-python-package"
 description = "Bleeding edge cookiecutter template to create new python packages"
 version = "0.1.0"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.14"
 readme = "README.md"
 authors = [
-  { name = "Nikita Sobolev", email = "mail@sobolevn.me" },
+  { name = "Killian Blais", email = "codekoriko@users.noreply.github.com" },
 ]
 license = "MIT"
 dynamic = ["dependencies", "classifiers"]
@@ -148,6 +148,8 @@ addopts = [
   # Custom template parts:
   "--ignore={{cookiecutter.project_name}}",
   "--ignore=hooks",
+  # Coverage:
+  "--cov-fail-under=85",
 ]
 
 
@@ -175,3 +177,29 @@ enable_error_code = [
   "unimported-reveal",
   "deprecated",
 ]
+
+[tool.poe.tasks]
+py-lint-flake8 = "flake8 ."
+py-lint-ruff = "ruff check . --fix"
+md-lint = "markdownlint . --fix"
+type-check-mypy = "mypy ."
+# vscode used for Pylance langage server
+type-check-pyright = "pyright ."
+test = "pytest"
+# to reduce token usage, we don't include coverage report in agent tests
+# Run tests quietly, suppress standard reports, then print ONLY the total coverage percentage
+test-agent = { sequence = [
+  { cmd = "pytest -o 'addopts=--quiet' --cov-report=" },
+  { cmd = "coverage report --format=total --precision=2" },
+], help = "Run tests with minimal output for agents" }
+test-single = "pytest -q"
+generate-wordlist-dataframe = { "script" = "passphrase_generator.word_list:generate_wordlist" }
+
+# Combine everything
+check-all = { sequence = [
+  "py-lint-ruff",
+  "py-lint-flake8",
+  "md-lint",
+  "type-check-mypy",
+  "type-check-pyright",
+], help = "Run all linting, type-checking, and tests" }
