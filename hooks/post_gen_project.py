@@ -8,6 +8,7 @@ https://github.com/pydanny/cookiecutter-django
 
 import shutil
 import subprocess  # noqa: S404
+import sys
 import textwrap
 from pathlib import Path
 from typing import Final
@@ -50,7 +51,7 @@ def generate_license() -> None:
 
 def handle_docs_support() -> None:
     """Remove docs directory if documentation support is not needed."""
-    if ADD_DOCS_SUPPORT == 'n':
+    if ADD_DOCS_SUPPORT == 'n':   # type: ignore
         docs_dir = PROJECT_DIRECTORY / 'docs'
         if docs_dir.exists():
             shutil.rmtree(docs_dir)
@@ -58,13 +59,21 @@ def handle_docs_support() -> None:
 
 def print_futher_instuctions() -> None:
     """Shows user what to do next after project creation."""
+    gh_cmd = (
+        'gh repo create "$(basename $(pwd))" --private --source=.'
+        if sys.platform != 'win32'
+        else 'gh repo create (Get-Item .).Basename --private --source=.'
+    )
     message = """
     Your project {0} is created.
     Now you can start working on it:
 
         cd {0}
+
+    One liner to create github Private Repo:
+        cd {0} && git init && git add . && git commit -m "Initial commit" && {1}
     """
-    print(textwrap.dedent(message.format(PROJECT_NAME)))  # noqa: WPS421
+    print(textwrap.dedent(message.format(PROJECT_NAME, gh_cmd)))  # noqa: WPS421
 
 
 generate_license()
