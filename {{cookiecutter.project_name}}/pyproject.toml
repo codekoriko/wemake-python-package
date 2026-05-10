@@ -33,9 +33,20 @@ classifiers = [
 poethepoet = ">=0.35"
 
 [tool.poe.tasks]
-lint = "flake8 ."
+py-lint-flake8 = "flake8 ."
+py-lint-ruff = "ruff check . --fix"
+md-lint = "markdownlint . --fix"
 type-check-mypy = "mypy ."
-type-check-pyright = "pyright ."  # vscode used for Pylance langage server
+# vscode used for Pylance langage server
+type-check-pyright = "pyright ."
+test = "pytest"
+# to reduce token usage, we don't include coverage report in agent tests
+# Run tests quietly, suppress standard reports, then print ONLY the total coverage percentage
+test-agent = { sequence = [
+  { cmd = "pytest -o 'addopts=--quiet' --cov-report=" },
+  { cmd = "coverage report --format=total --precision=2" },
+], help = "Run tests with minimal output for agents" }
+test-single = "pytest -q"
 
 [tool.poetry.dependencies]
 
