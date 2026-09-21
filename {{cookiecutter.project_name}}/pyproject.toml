@@ -29,9 +29,6 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
-[tool.poetry.requires-plugins]
-poethepoet = ">=0.35"
-
 [tool.poe.tasks]
 py-lint-flake8 = "flake8 ."
 py-lint-ruff = "ruff check . --fix"
@@ -51,6 +48,7 @@ test-single = "pytest -q"
 [tool.poetry.dependencies]
 
 [tool.poetry.group.dev.dependencies]
+poethepoet = "^0.35"
 mypy = "^1.16"
 
 wemake-python-styleguide = "^1.1"
