@@ -1,8 +1,0 @@
-{
-  "terminal.integrated.env.linux": {
-    "PATH": "/home/salticidae/miniconda3/envs/copilot-scrum/bin:${env:PATH}",
-    "CONDA_PREFIX": "/home/salticidae/miniconda3/envs/copilot-scrum",
-    "CONDA_DEFAULT_ENV": "copilot-scrum"
-  },
-  "python.defaultInterpreterPath": "/home/salticidae/miniconda3/envs/copilot-scrum/bin/python"
-}

@@ -26,6 +26,7 @@ ADD_DOCS_SUPPORT: Final = '{{ cookiecutter.add_docs_support }}'
 NOT_CREATED_YET: Final = '[Conda env not created yet - use project_name value]'
 NONE_ENV: Final = 'none'
 ENV_PATH_VAR: Final = r'${env:PATH}'
+USER_HOME_VAR: Final = '${userHome}'
 RAW_CONDA_ENV: Final[str] = '{{ cookiecutter.conda_environment }}'.strip()
 CONDA_ENV: Final[str] = (
     PROJECT_NAME if RAW_CONDA_ENV == NOT_CREATED_YET else RAW_CONDA_ENV
@@ -85,7 +86,7 @@ def _get_vscode_settings() -> dict[str, object]:
             'python.defaultInterpreterPath': f'{prefix}/python.exe',
         }
 
-    prefix = f'{Path.home()}/miniconda3/envs/{CONDA_ENV}'
+    prefix = f'{USER_HOME_VAR}/miniconda3/envs/{CONDA_ENV}'
     linux_path = f'{prefix}/bin:{ENV_PATH_VAR}'
     return {
         'terminal.integrated.env.linux': {

@@ -5,8 +5,10 @@ Almost completely taken from (you guys rock!):
 https://github.com/pydanny/cookiecutter-django/blob/master/tests
 """
 
+import json
 import os
 import re
+import sys
 from pathlib import Path
 from typing import Final
 
@@ -137,7 +139,7 @@ def test_conda_environment_creates_envrc(
     cookies: Cookies,
     context: dict[str, str],
 ) -> None:
-    """Ensures .envrc file is created when conda environment is set."""
+    """Ensures .envrc and settings.json are created for conda environment."""
     context.update({'conda_environment': 'base'})
     baked_project = cookies.bake(extra_context=context)
 
@@ -146,15 +148,52 @@ def test_conda_environment_creates_envrc(
     assert envrc_path.is_file()
     assert 'layout conda base' in envrc_path.read_text()
 
+    settings_path = baked_project.project_path / '.vscode' / 'settings.json'
+    assert settings_path.is_file()
+    settings = json.loads(settings_path.read_text())
+    assert 'salticidae' not in settings_path.read_text()
+    if sys.platform == 'win32':
+        assert 'terminal.integrated.env.windows' in settings
+    else:
+        assert 'terminal.integrated.env.linux' in settings
+        assert (
+            '${userHome}/miniconda3/envs/base'
+            in (settings['python.defaultInterpreterPath'])
+        )
+
+
+def test_conda_environment_not_created_yet_uses_project_name(
+    cookies: Cookies,
+    context: dict[str, str],
+) -> None:
+    """Ensures fallback to project_name when conda env is not created yet."""
+    context.update({
+        'conda_environment': (
+            '[Conda env not created yet - use project_name value]'
+        ),
+    })
+    baked_project = cookies.bake(extra_context=context)
+
+    assert baked_project.project_path is not None
+    envrc_path = baked_project.project_path / '.envrc'
+    assert f'layout conda {context["project_name"]}' in envrc_path.read_text()
+
+    settings_path = baked_project.project_path / '.vscode' / 'settings.json'
+    assert settings_path.is_file()
+    assert 'salticidae' not in settings_path.read_text()
+    assert context['project_name'] in settings_path.read_text()
+
 
 def test_conda_environment_none_no_envrc(
     cookies: Cookies,
     context: dict[str, str],
 ) -> None:
-    """Ensures .envrc file is not created when conda environment is none."""
+    """Ensures .envrc and settings.json are not created when env is none."""
     context.update({'conda_environment': 'none'})
     baked_project = cookies.bake(extra_context=context)
 
     assert baked_project.project_path is not None
     envrc_path = baked_project.project_path / '.envrc'
     assert not envrc_path.exists()
+    settings_path = baked_project.project_path / '.vscode' / 'settings.json'
+    assert not settings_path.exists()
