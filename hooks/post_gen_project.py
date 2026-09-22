@@ -26,11 +26,9 @@ ADD_DOCS_SUPPORT: Final = '{{ cookiecutter.add_docs_support }}'
 NOT_CREATED_YET: Final = '[Conda env not created yet - use project_name value]'
 NONE_ENV: Final = 'none'
 ENV_PATH_VAR: Final = r'${env:PATH}'
-RAW_CONDA_ENV: Final[str] = '{{ cookiecutter.conda_environment }}'
+RAW_CONDA_ENV: Final[str] = '{{ cookiecutter.conda_environment }}'.strip()
 CONDA_ENV: Final[str] = (
-    PROJECT_NAME
-    if RAW_CONDA_ENV == NOT_CREATED_YET  # type: ignore[comparison-overlap]
-    else RAW_CONDA_ENV
+    PROJECT_NAME if RAW_CONDA_ENV == NOT_CREATED_YET else RAW_CONDA_ENV
 )
 
 
@@ -101,7 +99,7 @@ def _get_vscode_settings() -> dict[str, object]:
 
 def handle_conda_environment() -> None:
     """Creates .envrc and .vscode/settings.json if conda env was selected."""
-    if CONDA_ENV == NONE_ENV:  # type: ignore[comparison-overlap]
+    if CONDA_ENV == NONE_ENV:
         return
 
     envrc_file = PROJECT_DIRECTORY / '.envrc'
@@ -126,7 +124,7 @@ def print_futher_instuctions() -> None:
         else 'gh repo create "$(basename $(pwd))" --private --source=.'
     )
     conda_step = ''
-    if CONDA_ENV != NONE_ENV:  # type: ignore[comparison-overlap]
+    if CONDA_ENV != NONE_ENV:
         step_lines = (
             '',
             '    Activate conda environment:',
