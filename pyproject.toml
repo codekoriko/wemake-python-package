@@ -18,9 +18,28 @@ dynamic = ["dependencies", "classifiers"]
 
 [tool.poetry]
 package-mode = false
-classifiers = [
-  "Private :: Do not Upload",
-]
+classifiers = ["Private :: Do not Upload"]
+
+[tool.poe.tasks]
+py-lint-flake8 = "flake8 ."
+py-lint-ruff = "ruff check . --fix"
+type-check-mypy = "mypy ."
+# vscode used for Pylance langage server
+type-check-pyright = "pyright ."
+check-all = { sequence = [
+  "py-lint-flake8",
+  "py-lint-ruff",
+  "type-check-mypy",
+  "type-check-pyright",
+], help = "Run all linters and type checkers" }
+
+test = "pytest tests/"
+# to reduce token usage, we don't include coverage report in agent tests
+# Run tests quietly, suppress standard reports, then print ONLY the total coverage percentage
+test-agent = { sequence = [
+  { cmd = "pytest tests/ -o 'addopts=--quiet'" },
+], help = "Run tests with minimal output for agents" }
+test-single = "pytest tests/ -q"
 
 
 [tool.poetry.dependencies]
@@ -42,7 +61,7 @@ pytest = "^8.4"
 pytest-randomly = "^3.16"
 pytest-cookies = "^0.7"
 pyright = "^1.1.404"
-
+poethepoet = "^0.33"
 
 [tool.ruff]
 # Ruff config: https://docs.astral.sh/ruff/settings
@@ -119,7 +138,7 @@ ignore = [
   "PLR6301", # do not require classmethod / staticmethod when self not used
   "TRY003",  # long exception messages from `tryceratops`
 ]
-external = [ "WPS" ]
+external = ["WPS"]
 
 # Plugin configs:
 flake8-quotes.inline-quotes = "single"
@@ -160,9 +179,7 @@ strict_bytes = true
 local_partial_types = true
 warn_unreachable = true
 
-exclude = [
-  '{{cookiecutter.project_name}}',
-]
+exclude = ['{{cookiecutter.project_name}}']
 
 enable_error_code = [
   "truthy-bool",
@@ -177,27 +194,3 @@ enable_error_code = [
   "unimported-reveal",
   "deprecated",
 ]
-
-[tool.poe.tasks]
-py-lint-flake8 = "flake8 ."
-py-lint-ruff = "ruff check . --fix"
-md-lint = "markdownlint . --fix"
-type-check-mypy = "mypy ."
-# vscode used for Pylance langage server
-type-check-pyright = "pyright ."
-check-all = { sequence = [
-  "py-lint-flake8",
-  "py-lint-ruff",
-  "md-lint",
-  "type-check-mypy",
-  "type-check-pyright",
-], help = "Run all linters and type checkers" }
-
-test = "pytest"
-# to reduce token usage, we don't include coverage report in agent tests
-# Run tests quietly, suppress standard reports, then print ONLY the total coverage percentage
-test-agent = { sequence = [
-  { cmd = "pytest -o 'addopts=--quiet' --cov-report=" },
-  { cmd = "coverage report --format=total --precision=2" },
-], help = "Run tests with minimal output for agents" }
-test-single = "pytest -q"

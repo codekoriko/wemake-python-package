@@ -99,7 +99,7 @@ def test_pyproject_toml(cookies: Cookies, context: dict[str, str]) -> None:
 
     assert project['name'] == context['project_name']
     assert project['description'] == context['project_description']
-    assert project['repository'] == 'https://github.com/{}/{}'.format(
+    assert project['urls']['repository'] == 'https://github.com/{}/{}'.format(
         context['organization'],
         context['project_name'],
     )
@@ -131,3 +131,30 @@ def test_validators_work(
 
     assert isinstance(baked_project.exception, FailedHookException)
     assert baked_project.exit_code == -1
+
+
+def test_conda_environment_creates_envrc(
+    cookies: Cookies,
+    context: dict[str, str],
+) -> None:
+    """Ensures .envrc file is created when conda environment is set."""
+    context.update({'conda_environment': 'base'})
+    baked_project = cookies.bake(extra_context=context)
+
+    assert baked_project.project_path is not None
+    envrc_path = baked_project.project_path / '.envrc'
+    assert envrc_path.is_file()
+    assert 'layout conda base' in envrc_path.read_text()
+
+
+def test_conda_environment_none_no_envrc(
+    cookies: Cookies,
+    context: dict[str, str],
+) -> None:
+    """Ensures .envrc file is not created when conda environment is none."""
+    context.update({'conda_environment': 'none'})
+    baked_project = cookies.bake(extra_context=context)
+
+    assert baked_project.project_path is not None
+    envrc_path = baked_project.project_path / '.envrc'
+    assert not envrc_path.exists()

@@ -9,4 +9,5 @@ def context() -> dict[str, str]:
         'project_description': 'Custom description',
         'organization': 'custom-org',
         'license': 'MIT',
+        'conda_environment': 'base',
     }

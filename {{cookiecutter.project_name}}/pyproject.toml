@@ -36,6 +36,14 @@ md-lint = "markdownlint . --fix"
 type-check-mypy = "mypy ."
 # vscode used for Pylance langage server
 type-check-pyright = "pyright ."
+check-all = { sequence = [
+  "py-lint-flake8",
+  "py-lint-ruff",
+  "md-lint",
+  "type-check-mypy",
+  "type-check-pyright",
+], help = "Run all linters and type checkers" }
+
 test = "pytest"
 # to reduce token usage, we don't include coverage report in agent tests
 # Run tests quietly, suppress standard reports, then print ONLY the total coverage percentage
