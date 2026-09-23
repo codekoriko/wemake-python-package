@@ -12,10 +12,10 @@ readme = "README.md"
 license = { text = "{{ cookiecutter.license|upper }}" }
 dynamic = ["dependencies", "classifiers"]
 
-authors = [{name = "Killian Blais", email = "codekoriko@users.noreply.github.com"}]
-keywords = [
-  "wemake-python-package",
+authors = [
+  { name = "Killian Blais", email = "codekoriko@users.noreply.github.com" },
 ]
+keywords = ["wemake-python-package"]
 
 [project.urls]
 repository = "https://github.com/{{ cookiecutter.organization }}/{{ cookiecutter.project_name }}"
@@ -48,7 +48,7 @@ test = "pytest"
 # to reduce token usage, we don't include coverage report in agent tests
 # Run tests quietly, suppress standard reports, then print ONLY the total coverage percentage
 test-agent = { sequence = [
-  { cmd = "pytest -o 'addopts=--quiet' --cov-report=" },
+  { cmd = "pytest -o 'addopts=--quiet' --cov={{cookiecutter.project_name.lower().replace('-', '_')}} --cov-report=" },
   { cmd = "coverage report --format=total --precision=2" },
 ], help = "Run tests with minimal output for agents" }
 test-single = "pytest -q"
@@ -150,7 +150,7 @@ ignore = [
   "PLR6301", # do not require classmethod / staticmethod when self not used
   "TRY003",  # long exception messages from `tryceratops`
 ]
-external = [ "WPS" ]
+external = ["WPS"]
 
 # Plugin configs:
 flake8-quotes.inline-quotes = "single"
@@ -174,7 +174,7 @@ addopts = [
   "--strict-config",
   "--strict-markers",
   "--doctest-modules",
-    # Output:
+  # Output:
   "--tb=short",
   # Coverage:
   "--cov={{ cookiecutter.project_name.lower().replace('-', '_') }}",
@@ -196,9 +196,7 @@ local_partial_types = true
 warn_unreachable = true
 python_version = "{{ cookiecutter.python_version }}"
 
-exclude = [
-  "sandbox/",
-]
+exclude = ["sandbox/"]
 
 # ie: Call to untyped function "thirdparty_fn" of "Module" in typed context
 #     Mypy(no-untyped-call)
