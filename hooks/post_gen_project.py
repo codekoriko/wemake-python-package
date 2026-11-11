@@ -68,33 +68,26 @@ def handle_docs_support() -> None:
 
 
 def _get_vscode_settings() -> dict[str, object]:
-    """Build platform-specific vscode settings for selected conda env."""
+    """Configure the interpreter and Conda activation for a new workspace."""
     if sys.platform == 'win32':
-        prefix = f'D:/miniconda3/envs/{CONDA_ENV}'
-        win_path_parts = (
-            prefix,
-            f'{prefix}/Library/bin',
-            f'{prefix}/Scripts',
-            ENV_PATH_VAR,
-        )
-        return {
-            'terminal.integrated.env.windows': {
-                'PATH': ';'.join(win_path_parts),
-                'CONDA_PREFIX': prefix,
-                'CONDA_DEFAULT_ENV': CONDA_ENV,
-            },
-            'python.defaultInterpreterPath': f'{prefix}/python.exe',
-        }
+        conda_root = 'D:/miniconda3'
+        interpreter = f'{conda_root}/envs/{CONDA_ENV}/python.exe'
+        conda_executable = f'{conda_root}/Scripts/conda.exe'
+    else:
+        conda_root = f'{USER_HOME_VAR}/miniconda3'
+        interpreter = f'{conda_root}/envs/{CONDA_ENV}/bin/python'
+        conda_executable = f'{conda_root}/bin/conda'
 
-    prefix = f'{USER_HOME_VAR}/miniconda3/envs/{CONDA_ENV}'
-    linux_path = f'{prefix}/bin:{ENV_PATH_VAR}'
     return {
-        'terminal.integrated.env.linux': {
-            'PATH': linux_path,
-            'CONDA_PREFIX': prefix,
-            'CONDA_DEFAULT_ENV': CONDA_ENV,
+        'python.defaultInterpreterPath': interpreter,
+        'python.condaPath': conda_executable,
+        'python.terminal.activateEnvironment': True,
+        'files.watcherExclude': {
+            '**/.poetry/**': True,
         },
-        'python.defaultInterpreterPath': f'{prefix}/bin/python',
+        'search.exclude': {
+            '**/.poetry/**': True,
+        },
     }
 
 

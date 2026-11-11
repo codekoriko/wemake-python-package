@@ -146,6 +146,7 @@ celerybeat-schedule
 # Environments
 *.env
 .env*
+.poetry/
 .venv
 env/
 venv/

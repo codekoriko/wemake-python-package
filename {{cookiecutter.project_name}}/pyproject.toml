@@ -81,6 +81,7 @@ furo = "^2024.8"
 
 [tool.ruff]
 # Ruff config: https://docs.astral.sh/ruff/settings
+extend-exclude = [".poetry"]
 preview = true
 fix = true
 target-version = "py{{ cookiecutter.python_version.replace('.', '') }}"
