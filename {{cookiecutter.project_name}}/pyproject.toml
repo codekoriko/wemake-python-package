@@ -36,12 +36,19 @@ md-lint = "markdownlint . --fix"
 type-check-mypy = "mypy ."
 # vscode used for Pylance langage server
 type-check-pyright = "pyright ."
+
+package-check = { sequence = [
+  { cmd = "poetry check" },
+  { cmd = "pip check" },
+], help = "Validate the poetry config and installed dependencies" }
+
 check-all = { sequence = [
   "py-lint-flake8",
   "py-lint-ruff",
   "md-lint",
   "type-check-mypy",
   "type-check-pyright",
+  "package-check",
 ], help = "Run all linters and type checkers" }
 
 test = "pytest"
